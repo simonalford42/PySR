@@ -856,6 +856,9 @@ class PySRRegressor(MultiOutputMixin, RegressorMixin, BaseEstimator):
         self.select_k_features = select_k_features
         self.julia_kwargs = julia_kwargs
 
+        if cluster_manager == 'slurm':
+            self.procs = os.environ.get('SLURM_CPUS_PER_TASK', self.procs)
+
         # Once all valid parameters have been assigned handle the
         # deprecated kwargs
         if len(kwargs) > 0:  # pragma: no cover
