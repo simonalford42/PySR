@@ -857,7 +857,9 @@ class PySRRegressor(MultiOutputMixin, RegressorMixin, BaseEstimator):
         self.julia_kwargs = julia_kwargs
 
         if cluster_manager == 'slurm':
-            self.procs = os.environ.get('SLURM_CPUS_PER_TASK', self.procs)
+            # get all cpus allocated to the job
+            # https://stackoverflow.com/a/57474787/4383594
+            self.procs = os.environ.get('SLURM_CPUS_ON_NODE', self.procs)
 
         # Once all valid parameters have been assigned handle the
         # deprecated kwargs
